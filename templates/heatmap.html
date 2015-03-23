@@ -1,0 +1,403 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<link rel="stylesheet" href="static/css/heatmap.css">
+{% endblock %}
+
+{% block content %}
+  <div id="header">
+    <h3>Weekly Box Office: Adjusted for Inflation (1999-Present)</h3>
+  </div>
+	<div id="heatmap"></div>
+	<div id="tooltip"><p id="value"></p></div>
+  <div id="buttons">
+    <button id="overall">Overall</button>
+    <button id="year">By Year</button>
+    <button id="week_num">By Week Number</button>
+  </div>
+
+<script>
+
+function drawSvg() {
+  var windowHeight = window.innerHeight
+  var windowWidth = window.innerWidth
+
+  var margin = {top: 20, right: 100, bottom: 40, left: 100},
+      width = windowWidth - margin.left - margin.right,
+      height = width / 2.5;
+
+  var svg = d3.select("#heatmap").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  return {svg:svg, margin:margin, width:width, height:height, windowHeight:windowHeight, windowWidth:windowWidth};
+};
+
+var svgData = drawSvg();
+var svg = svgData.svg;
+var margin = svgData.margin;
+var width = svgData.width;
+var height = svgData.height;
+var windowHeight = svgData.windowHeight;
+var windowWidth = svgData.windowWidth; 
+var dollar = d3.format("$,");
+
+function defineAxes() {
+  var x = d3.scale.linear()
+      .domain([1, 54])
+      .range([0, width]);
+
+  var x2 = d3.time.scale()
+      .domain([new Date(2000, 0, 1), new Date(2000, 11, 31)])
+      .range([0, width]);
+
+  var y = d3.scale.linear()
+      .domain([1998, 2016])
+      .rangeRound([height, 0]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var xAxisMonths = d3.svg.axis()
+      .scale(x2)
+      .orient("top")
+      .ticks(d3.time.months)
+      .tickSize(0, 0)
+      .tickFormat(d3.time.format("%b"));
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .tickFormat(d3.format("d"))
+      .ticks(5);
+
+  return {x:x, x2:x2, y:y, z:z, xAxis:xAxis, xAxisMonths:xAxisMonths, yAxis:yAxis}
+};
+
+var axes = defineAxes();
+var x = axes.x;
+var x2 = axes.x2;
+var y = axes.y;
+var z = axes.z;
+var xAxis = axes.xAxis;
+var xAxisMonths = axes.xAxisMonths;
+var yAxis = axes.yAxis;
+
+var heightDivisor = 29;
+var colorRange = ["#FFFFFF", "#061F46"];
+
+d3.csv("static/csv/weekly_box_office_since_1999.csv", function(error, data) {
+  drawHeatmap(data, "overall");  
+
+  $("#year").click(function() {
+    svg.selectAll("*").remove();
+    drawHeatmap(data, "year");  
+  });
+
+  $("#overall").click(function() {
+    svg.selectAll("*").remove();
+    drawHeatmap(data, "overall");  
+  });
+
+  $("#week_num").click(function() {
+    svg.selectAll("*").remove();
+    drawHeatmap(data, "week_num");  
+  });
+  
+});
+
+
+function drawHeatmap(data, fillType) {
+  var nest = d3.nest()
+    .key(function(d) { return d.year; })
+    .entries(data);
+
+  if (fillType === "overall") {
+    var weekNo = svg.selectAll(".weekNo")
+        .data(nest)
+      .enter().append("g")
+        .attr("class", "weekNo");
+
+    var bin = weekNo.selectAll(".bin");
+
+    bin
+        .data(function (d) { return d.values })
+      .enter().append("rect")
+        .attr("class", "bin")
+        .attr("x", function (d) { return x(d.week_num) ; })
+        .attr("width", function (d, i) { return  x(i+1) - x(i) - 0.5; });
+
+    weekNo.each(function (d) {
+      d3.select(this).selectAll(".bin")
+          .attr("y", function(d) { return y(d.year) } )
+          .attr("height", windowHeight / heightDivisor );
+    });
+
+    var allGrosses = [];
+      for(i=0; i < data.length; i++) {
+        allGrosses.push(+data[i].inflation_adj_total_gross);
+      };
+
+    var z = d3.scale.linear()
+      .domain([d3.min(allGrosses), d3.max(allGrosses)])
+      .range(colorRange)
+      .interpolate(d3.interpolateLab);
+
+    weekNo.each(function (d) {
+      d3.select(this)
+        .transition()
+        .duration(300)
+        .ease("elastic")
+        .selectAll(".bin")
+        .style("fill", function(d) { return z(d.inflation_adj_total_gross); })
+    });
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "x axis months")
+      .attr("transform", "translate(0," + (margin.top - 10) + ")")
+      .call(xAxisMonths);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    svg.selectAll(".bin").on("mousemove", function(d) {
+
+        if(windowWidth - d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX - 150;
+        } else if(d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX;
+        } else {
+          var leftOffset = d3.event.pageX - 80;
+        };
+
+        if(d3.event.pageY < 100) {
+          var topOffset = d3.event.pageY + 100;
+        } else {
+          var topOffset = d3.event.pageY - 20;
+        };
+
+        var tooltip = d3.select("#tooltip");
+        tooltip
+          .style("left", leftOffset + "px")
+            .style("top", topOffset - 75 + "px")
+            .style("opacity", 1)
+            .select("#value")
+            .html(d.year + ", Week " + d.week_num + "<br>" + d.top_movie + "<br>" + dollar(d.inflation_adj_total_gross));
+      });
+
+      svg.selectAll(".bin").on("mouseout", function(d) {
+
+        d3.select("#tooltip")
+          .style("opacity", 0);;
+        });
+
+      svg.selectAll(".bin").on("click", function(d) {
+        window.open("http://www.boxofficemojo.com/weekly/chart/?yr=" 
+          + d.year + "&wk=" + d.week_num + "&p=.htm");
+      });
+
+  } else if (fillType === "year") {
+    var weekNo = svg.selectAll(".weekNo")
+        .data(nest)
+      .enter().append("g")
+        .attr("class", "weekNo");
+
+    var bin = weekNo.selectAll(".bin");
+
+    bin
+        .data(function (d) { return d.values })
+      .enter().append("rect")
+        .attr("class", "bin")
+        .attr("x", function (d) { return x(d.week_num) ; })
+        .attr("width", function (d, i) { return  x(i+1) - x(i) - 0.5; });
+
+    weekNo.each(function (d) {
+      d3.select(this).selectAll(".bin")
+          .attr("y", function(d) { return y(d.year) } )
+          .attr("height", windowHeight / heightDivisor );
+    });
+
+
+    weekNo.each(function (d) {
+      var grosses = []
+      for(i=0; i < d.values.length; i++) {
+
+        grosses.push(+d.values[i].inflation_adj_total_gross)
+      }
+
+      var zWeekNo = d3.scale.linear()
+        .domain([d3.min(grosses), d3.max(grosses)])
+        .range(["#FFFFFF", "#061F46"])
+        .interpolate(d3.interpolateLab);
+
+      d3.select(this)
+        .transition()
+        .duration(300)
+        .ease("elastic")
+        .selectAll(".bin")
+        .style("fill", function(d) { return zWeekNo(d.inflation_adj_total_gross); });
+    });
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "x axis months")
+      .attr("transform", "translate(0," + (margin.top - 10) + ")")
+      .call(xAxisMonths);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    svg.selectAll(".bin").on("mousemove", function(d) {
+
+        if(windowWidth - d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX - 150;
+        } else if(d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX;
+        } else {
+          var leftOffset = d3.event.pageX - 80;
+        };
+
+        if(d3.event.pageY < 100) {
+          var topOffset = d3.event.pageY + 100;
+        } else {
+          var topOffset = d3.event.pageY - 20;
+        };
+
+        var tooltip = d3.select("#tooltip");
+        tooltip
+          .style("left", leftOffset + "px")
+            .style("top", topOffset - 75 + "px")
+            .style("opacity", 1)
+            .select("#value")
+            .html(d.year + ", Week " + d.week_num + "<br>" + d.top_movie + "<br>" + dollar(d.inflation_adj_total_gross));
+      });
+
+      svg.selectAll(".bin").on("mouseout", function(d) {
+
+        d3.select("#tooltip")
+          .style("opacity", 0);;
+        });
+
+      svg.selectAll(".bin").on("click", function(d) {
+        window.open("http://www.boxofficemojo.com/weekly/chart/?yr="
+          + d.year + "&wk=" + d.week_num + "&p=.htm");
+      });
+
+
+  } else if (fillType === "week_num") {
+
+      var nestNew = d3.nest()
+        .key(function(d) { return d.week_num; })
+        .entries(data);
+
+      var weekNoNew = svg.selectAll(".weekNoNew")
+          .data(nestNew)
+        .enter().append("g")
+          .attr("class", "weekNoNew");
+
+      var binNew = weekNoNew.selectAll(".binNew");
+
+      binNew
+          .data(function (d) { return d.values })
+        .enter().append("rect")
+          .attr("class", "binNew")
+          .attr("y", function(d) { return y(d.year) } )
+          .attr("height", windowHeight / heightDivisor )
+
+      weekNoNew.each(function (d) {
+        var test = d3.select(this).selectAll(".binNew")
+
+            .attr("x", function (d) { return x(d.week_num) ; })
+            .attr("width", function (d, i) { return  x(i+1) - x(i) - 0.5; });
+      });
+      
+      weekNoNew.each(function (d) {
+        var weekGrosses = []
+        for(i=0; i < d.values.length; i++) {
+          weekGrosses.push(+d.values[i].inflation_adj_total_gross)
+        }
+
+        var zYear = d3.scale.linear()
+          .domain([d3.min(weekGrosses), d3.max(weekGrosses)])
+          .range(colorRange)
+          .interpolate(d3.interpolateLab);
+
+        d3.select(this)
+          .transition()
+          .duration(300)
+          .ease("elastic")
+          .selectAll(".binNew")
+          .style("fill", function(d) { return zYear(d.inflation_adj_total_gross); })
+
+      });
+
+      svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+      svg.append("g")
+        .attr("class", "x axis months")
+        .attr("transform", "translate(0," + (margin.top - 10) + ")")
+        .call(xAxisMonths);
+
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+
+      svg.selectAll(".binNew").on("mousemove", function(d) {
+
+        if(windowWidth - d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX - 150;
+        } else if(d3.event.pageX < 200) {
+          var leftOffset = d3.event.pageX;
+        } else {
+          var leftOffset = d3.event.pageX - 80;
+        };
+
+        if(d3.event.pageY < 100) {
+          var topOffset = d3.event.pageY + 100;
+        } else {
+          var topOffset = d3.event.pageY - 20;
+        };
+
+      var tooltip = d3.select("#tooltip");
+        tooltip
+          .style("left", leftOffset + "px")
+            .style("top", topOffset - 75 + "px")
+            .style("opacity", 1)
+            .select("#value")
+            .html(d.year + ", Week " + d.week_num + "<br>" + d.top_movie + "<br>" + dollar(d.inflation_adj_total_gross));
+      });
+
+      svg.selectAll(".binNew").on("mouseout", function(d) {
+
+        d3.select("#tooltip")
+          .style("opacity", 0);;
+        });
+
+      svg.selectAll(".binNew").on("click", function(d) {
+        window.open("http://www.boxofficemojo.com/weekly/chart/?yr=" 
+          + d.year + "&wk=" + d.week_num + "&p=.htm");
+      });
+  };
+}
+</script>
+{% endblock %}

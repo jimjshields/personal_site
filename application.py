@@ -11,5 +11,13 @@ application.secret_key = None
 def index():
 	return render_template('index.html')
 
+@application.route('/projects')
+def projects():
+	return render_template('projects.html')
+
+@application.route('/heatmap')
+def heatmap():
+	return render_template('heatmap.html')
+
 if __name__ == '__main__':
 	application.run(debug=True)

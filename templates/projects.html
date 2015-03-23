@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content" id="projects">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Thank the Academy</h4>
+      <p>Randomly generate an Oscar acceptance speech.</p>
+    </div>
+  </div>
+  <div class="row">
+    <a href="{{ url_for('heatmap') }}">
+      <div class="col-md-12">
+        <h4>Box Office Heatmap</h4>
+        <p>A consistently-updated heatmap of the weekly box office.</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+{% endblock %}

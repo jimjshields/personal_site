@@ -1,0 +1,68 @@
+#tooltip {
+    position: absolute;
+    width: 150px;
+    height: auto;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -mox-box-shadow: 4px 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rbga(0, 0, 0, 0.4) pointer-events: none;
+}
+
+#tooltip p {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+h3, p, button {
+  margin: 0;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 400;
+}
+
+h3 {
+  margin-top: 75px;
+}
+
+.bin:hover, .binNew:hover {
+	stroke: black;
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.axis {
+  font: 16px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#buttons, #header {
+  text-align: center;
+}
+
+#header {
+  margin-bottom: 50px;
+}
+
+#buttons {
+  margin-top: 25px;
+}
+
+button {
+  height: 50px;
+  width: 150px;
+  font-size: 16px;
+  background-color: rgb(61, 70, 105);
+  color: white;
+  cursor: pointer;
+}

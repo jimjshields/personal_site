@@ -3,5 +3,4 @@ csv_data
 .elasticbeanstalk
 skeleton
 *.pyc
-*.csv
 config.py

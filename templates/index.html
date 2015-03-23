@@ -1,60 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends "base.html" %}
 
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta charset="utf-8">
-  <title>Jim Shields</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+{% block content %}
 
-  <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="static/css/normalize.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
-
-
-</head>
-<body>
-
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
-      <li><a href="#">Projects</a></li>
-    </ul>
-  </div>
-</nav>
-  <div class="projects">
-    <div class="row">
-      <div class="col-md-12">
-        <h4>Thank the Academy</h4>
-        <p>Randomly generate an Oscar acceptance speech.</p>
-      </div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>My name is Jim Shields.</h4>
+      <p>I've been teaching myself to program for over a year. </p>
     </div>
-    <div class="row">
-      <div class="col-md-12">
+  </div>
+  <hr>
+  <div class="row" id="sample">
+    <div class="col-md-4">
+      <h4>Thank the Academy</h4>
+      <img src="static/img/thank_the_academy.png" />
+    </div>
+    <a href="{{ url_for('heatmap') }}">
+      <div class="col-md-4">
         <h4>Box Office Heatmap</h4>
-        <p>A consistently-updated heatmap of the weekly box office.</p>
+        <img src="static/img/heatmap.png" />
       </div>
+    </a>
+    <div class="col-md-4">
+      <h4>Thank the Academy</h4>
     </div>
   </div>
+</div>
 
-
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body>
-</html>
+{% endblock %}

@@ -55,12 +55,22 @@ a:hover {
   line-height: 13px;
 }
 
-.row:hover {
+#projects > .row:hover {
   transition: background-color 0.3s ease;
   background-color: #e7e7e7;
 }
 
-.projects {
+.col-md-4 {
+  transition: border 0.3s ease;
+  border: 1px solid #FFFFFF;
+}
+
+.col-md-4:hover {
+  transition: border 0.3s ease;
+  border: 1px solid #1EAEDB;
+}
+
+.content {
   margin-top: 75px;
 }
 
@@ -70,4 +80,9 @@ a:hover {
 
 .container > ul > li {
   text-align: center;
+}
+
+img {
+  height: 200px;
+  width: 200px;
 }
