@@ -1,3 +1,6 @@
 venv
 *.pyc
 *.csv
+csv_data
+config.py
+.elasticbeanstalk/

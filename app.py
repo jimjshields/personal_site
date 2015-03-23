@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from app import db
+# from app import db
 # from app.models import Data
 
 app = Flask(__name__)
