@@ -4,7 +4,7 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
-<link rel="stylesheet" href="static/css/heatmap.css">
+<link rel="stylesheet" href="/static/css/heatmap.css">
 {% endblock %}
 
 {% block content %}
@@ -92,7 +92,7 @@ var yAxis = axes.yAxis;
 var heightDivisor = 29;
 var colorRange = ["#FFFFFF", "#061F46"];
 
-d3.csv("static/csv/weekly_box_office_since_1999.csv", function(error, data) {
+d3.csv("/static/csv/weekly_box_office_since_1999.csv", function(error, data) {
   drawHeatmap(data, "overall");  
 
   $("#year").click(function() {

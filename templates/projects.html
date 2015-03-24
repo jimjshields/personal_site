@@ -3,20 +3,16 @@
 {% block content %}
 
 <div class="content" id="projects">
+  {% for project in all_projects %}
   <div class="row">
-    <div class="col-md-12">
-      <h4>Thank the Academy</h4>
-      <p>Randomly generate an Oscar acceptance speech.</p>
-    </div>
-  </div>
-  <div class="row">
-    <a href="{{ url_for('heatmap') }}">
+    <a href="{{ url_for('projects', project=project.var_name) }}">
       <div class="col-md-12">
-        <h4>Box Office Heatmap</h4>
-        <p>A consistently-updated heatmap of the weekly box office.</p>
+        <h4>{{ project.name }}</h4>
+        <p>{{ project.description }}</p>
       </div>
     </a>
   </div>
+  {% endfor %}
 </div>
 
 {% endblock %}
