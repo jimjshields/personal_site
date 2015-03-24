@@ -22,7 +22,11 @@ class Projects(object):
 all_projects = Projects()
 
 all_projects.add_project('thank_the_academy', 'Thank the Academy', 'Randomly generate an Oscar acceptance speech.')
-all_projects.add_project('heatmap', 'Box Office Heatmap', 'A consistently-updated heatmap of the weekly box office.')
+all_projects.add_project('heatmap', 'Box Office Heatmap', 'Get a heatmap of the weekly box office, from 1999 to now.')
+all_projects.add_project('tiny', 'Tiny', 'A small web framework built in Python, built as a learning project.')
+all_projects.add_project('rt_cli', 'Rotten Tomatoes CLI', 'A command-line interface for Rotten Tomatoes\' API.')
+all_projects.add_project('best_picture', 'Scraping the Best Picture\'s Budgets', 'A scraper that grabs all of the available budgets of all Best Picture winners from Wikipedia.')
+all_projects.add_project('myvcs', 'My VCS', 'A simple, not-quite-finished version control system.')
 
 @application.route('/')
 @application.route('/index')
