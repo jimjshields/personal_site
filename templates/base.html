@@ -39,20 +39,12 @@
       <li class="active"><a href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a></li>
       <li><a href="{{ url_for('projects') }}">Projects</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="https://github.com/jimjshields/" class="icon"><i class="fa fa-github fa-3x"></i></a></li>
-        <li><a href="https://twitter.com/shieldsofdreams" class="icon"><i class="fa fa-twitter fa-3x"></i></a></li>
-        <li><a href="mailto:jim.j.shields@gmail.com" class="icon"><i class="fa fa-envelope-o fa-3x"></i></a></li>
-        <li><a href="http://shieldsofdreams.tumblr.com/" class="icon"><i class="fa fa-tumblr fa-3x"></i></a></li>
-        <li><a href="http://137to1.blogspot.com/" class="icon"><i class="fa fa-rss fa-3x"></i></a></li>
-      </ul>
   </div>
 </nav>
 
-<div class="content">
+<div class="header">
   <div class="row">
     <div class="col-md-12">
-      <h4>Hi! I'm Jim Shields.</h4>
       {% block description %}
       {% endblock %}
     </div>
@@ -62,6 +54,18 @@
 
 {% block content %}
 {% endblock %}
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <ul class="nav nav-pills nav-justified">
+        <li><a href="https://github.com/jimjshields/" class="icon"><i class="fa fa-github fa-3x"></i></a></li>
+        <li><a href="https://twitter.com/shieldsofdreams" class="icon"><i class="fa fa-twitter fa-3x"></i></a></li>
+        <li><a href="mailto:jim.j.shields@gmail.com" class="icon"><i class="fa fa-envelope-o fa-3x"></i></a></li>
+        <li><a href="http://shieldsofdreams.tumblr.com/" class="icon"><i class="fa fa-tumblr fa-3x"></i></a></li>
+        <li><a href="http://137to1.blogspot.com/" class="icon"><i class="fa fa-rss fa-3x"></i></a></li>
+    </ul>
+  </div>
+</nav>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

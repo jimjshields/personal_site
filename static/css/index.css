@@ -56,25 +56,33 @@ a:hover {
   line-height: 13px;
 }
 
-#projects > .row:hover, #projects > .row:active, #projects > .row:focus {
-  transition: border 0.3s ease;
-  /*background-color: #e7e7e7;*/
-  border-top: solid 2px #e7e7e7;
-  border-bottom: solid 2px #e7e7e7;
+.content > .row:hover, .content > .row:active, .content > .row:focus {
+  transition: background-color 1.0s ease;
+  background-color: #e7e7e7;
 }
 
 .col-md-4 {
-  transition: border 0.3s ease;
+  transition: background-color 1.0s ease;
   border: 1px solid #FFFFFF;
 }
 
 .col-md-4:hover {
-  transition: border 0.3s ease;
+  transition: background-color 1.0s ease;
   border: 1px solid #1EAEDB;
 }
 
-.content {
+.header {
   margin-top: 75px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-top: 100px;
+  }
+
+  .nav-justified {
+    display: flex;
+  }
 }
 
 .navbar-default {
@@ -95,8 +103,6 @@ img {
   margin: 0;
 }
 
-.navbar-nav>li>a.icon {
-  padding: 0;
-  padding-top: 2px;
-  padding-right: 25px;
+.content {
+  padding-bottom: 100px;
 }

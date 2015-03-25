@@ -1,6 +1,7 @@
 {% extends "index.html" %}
 
 {% block description %}
+<h4>Hi! I'm Jim Shields.</h4>
 <p>This is a collection of some of the most fun projects I've worked on so far.</p>
 {% endblock %}
 
@@ -9,7 +10,7 @@
 <div class="content" id="projects">
   {% for project in all_projects %}
   <div class="row">
-    <a href="{{ url_for('projects', project=project.var_name) }}">
+    <a href="{{ project.url }}">
       <div class="col-md-12">
         <h4>{{ project.name }}</h4>
         <p>{{ project.description }}</p>

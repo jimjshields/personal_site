@@ -12,8 +12,13 @@ class Projects(object):
 	def __init__(self):
 		self.projects = []
 
-	def add_project(self, var_name, name, description):
-		project = {'var_name': var_name, 'name': name, 'description': description}
+	def add_project(self, var_name, name, description, url):
+		project = {
+			'var_name': var_name, 
+			'name': name, 
+			'description': description,
+			'url': url
+		}
 		self.projects.append(project)
 
 	def get_projects(self):
@@ -21,12 +26,12 @@ class Projects(object):
 
 all_projects = Projects()
 
-all_projects.add_project('thank_the_academy', 'Thank the Academy', 'Randomly generate an Oscar acceptance speech.')
-all_projects.add_project('heatmap', 'Box Office Heatmap', 'Get a heatmap of the weekly box office, from 1999 to now.')
-all_projects.add_project('tiny', 'Tiny', 'A small web framework built in Python, built as a learning project.')
-all_projects.add_project('rt_cli', 'Rotten Tomatoes CLI', 'A command-line interface for Rotten Tomatoes\' API.')
-all_projects.add_project('best_picture', 'Scraping the Best Picture\'s Budgets', 'A scraper that grabs all of the available budgets of all Best Picture winners from Wikipedia.')
-all_projects.add_project('myvcs', 'My VCS', 'A simple, not-quite-finished version control system.')
+all_projects.add_project('thank_the_academy', 'Thank the Academy', 'Randomly generate an Oscar acceptance speech.', 'http://thanktheacademy.herokuapp.com')
+all_projects.add_project('heatmap', 'Box Office Heatmap', 'Get a heatmap of the weekly box office, from 1999 to now.', 'projects/heatmap')
+all_projects.add_project('tiny', 'Tiny', 'A small web framework built in Python, built as a learning project.', 'https://github.com/jimjshields/tiny')
+all_projects.add_project('rt_cli', 'Rotten Tomatoes CLI', 'A command-line interface for Rotten Tomatoes\' API.', 'https://github.com/jimjshields/rotten_tomatoes_CLI')
+all_projects.add_project('best_picture', 'Scraping the Best Picture\'s Budgets', 'A scraper that grabs all of the available budgets of all Best Picture winners from Wikipedia.', 'https://github.com/jimjshields/best_picture')
+all_projects.add_project('myvcs', 'My VCS', 'A simple, not-quite-finished version control system.', 'https://github.com/jimjshields/myvcs')
 
 @application.route('/')
 @application.route('/index')
