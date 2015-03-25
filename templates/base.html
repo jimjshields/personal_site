@@ -21,6 +21,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/static/css/index.css">
 
 {% block head %}
@@ -37,9 +38,14 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a></li>
       <li><a href="{{ url_for('projects') }}">Projects</a></li>
-      <li><a href="http://shieldsofdreams.tumblr.com/">Programming Blog</a></li>
-      <li><a href="http://137to1.blogspot.com/">Movie Blog</a></li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/jimjshields/" class="icon"><i class="fa fa-github fa-3x"></i></a></li>
+        <li><a href="https://twitter.com/shieldsofdreams" class="icon"><i class="fa fa-twitter fa-3x"></i></a></li>
+        <li><a href="mailto:jim.j.shields@gmail.com" class="icon"><i class="fa fa-envelope-o fa-3x"></i></a></li>
+        <li><a href="http://shieldsofdreams.tumblr.com/" class="icon"><i class="fa fa-tumblr fa-3x"></i></a></li>
+        <li><a href="http://137to1.blogspot.com/" class="icon"><i class="fa fa-rss fa-3x"></i></a></li>
+      </ul>
   </div>
 </nav>
 
