@@ -37,9 +37,22 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a></li>
       <li><a href="{{ url_for('projects') }}">Projects</a></li>
+      <li><a href="http://shieldsofdreams.tumblr.com/">Programming Blog</a></li>
+      <li><a href="http://137to1.blogspot.com/">Movie Blog</a></li>
     </ul>
   </div>
 </nav>
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Hi! I'm Jim Shields.</h4>
+      {% block description %}
+      {% endblock %}
+    </div>
+  </div>
+  <hr>
+</div>
 
 {% block content %}
 {% endblock %}
