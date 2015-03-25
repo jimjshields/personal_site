@@ -42,27 +42,33 @@ p {
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-body {
-  overflow: hidden;
+.full_width {
+  width: 100%;
 }
 
 a {
   color: #1EAEDB; }
 a:hover {
-  color: #0FA0CE; }
+  color: #0FA0CE;
+  text-decoration: none; }
 
 .row {
   text-align: center;
-  transition: border 0.3s ease;
-  border: 2px solid white;
   cursor: pointer;
   padding-top: 6px;
   line-height: 13px;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.header > .row {
+  cursor: default;
 }
 
 .content > .row:hover, .content > .row:active, .content > .row:focus {
   transition: background-color 1.0s ease;
   background-color: #e7e7e7;
+  text-decoration: none;
 }
 
 .col-md-4 {
@@ -73,6 +79,7 @@ a:hover {
 .col-md-4:hover {
   transition: background-color 1.0s ease;
   border: 1px solid #1EAEDB;
+  text-decoration: none;
 }
 
 .header {
