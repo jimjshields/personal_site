@@ -5,10 +5,17 @@
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
 <link rel="stylesheet" href="/static/css/heatmap.css">
+
+<style>
+#buttons {
+  padding-bottom: 100px;
+}
+</style>
+
 {% endblock %}
 
 {% block content %}
-  <div id="header">
+  <div id="chart_title">
     <h3>Weekly Box Office: Adjusted for Inflation (1999-Present)</h3>
   </div>
 	<div id="heatmap"></div>
@@ -21,13 +28,17 @@
 
 <script>
 
+$(".header").toggle()
+$("#index").toggleClass("active")
+$("#projects").toggleClass("active")
+
 function drawSvg() {
   var windowHeight = window.innerHeight
   var windowWidth = window.innerWidth
 
   var margin = {top: 20, right: 100, bottom: 40, left: 100},
       width = windowWidth - margin.left - margin.right,
-      height = width / 2.5;
+      height = width / 3;
 
   var svg = d3.select("#heatmap").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -89,7 +100,7 @@ var xAxis = axes.xAxis;
 var xAxisMonths = axes.xAxisMonths;
 var yAxis = axes.yAxis;
 
-var heightDivisor = 29;
+var heightDivisor = 34;
 var colorRange = ["#FFFFFF", "#061F46"];
 
 d3.csv("/static/csv/weekly_box_office_since_1999.csv", function(error, data) {

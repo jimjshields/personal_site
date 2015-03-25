@@ -46,11 +46,11 @@ h3 {
   shape-rendering: crispEdges;
 }
 
-#buttons, #header {
+#buttons, #chart_title {
   text-align: center;
 }
 
-#header {
+#chart_title {
   margin-bottom: 50px;
 }
 
