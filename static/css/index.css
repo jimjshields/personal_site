@@ -42,6 +42,10 @@ p {
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+body {
+  overflow: hidden;
+}
+
 a {
   color: #1EAEDB; }
 a:hover {
